@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1d1911">
+<title>Graphite Blocks</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='5'%20fill='%23d6cfb4'/%3E%3Crect%20x='5'%20y='5'%20width='10'%20height='10'%20fill='%23a24f43'/%3E%3Crect%20x='15'%20y='5'%20width='10'%20height='10'%20fill='%237fb0ab'/%3E%3Crect%20x='5'%20y='15'%20width='10'%20height='10'%20fill='%23a48fb0'/%3E%3Crect%20x='15'%20y='15'%20width='10'%20height='10'%20fill='%23dcc87e'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="stage">
+    <div id="sheet">
+      <div class="graph-overlay" aria-hidden="true"></div>
+      <div id="sheet-title">GRAPHITE BLOCKS</div>
+
+      <div id="sheet-main">
+        <div id="playfield">
+          <canvas id="board-canvas"></canvas>
+          <div id="field-overlays">
+            <div id="popup-layer"></div>
+
+            <div id="card-start" class="note-card">
+              <div class="tape" aria-hidden="true"></div>
+              <h1 class="card-title">GRAPHITE BLOCKS</h1>
+              <p class="card-sub">press ENTER or tap to start<span class="blink">_</span></p>
+            </div>
+
+            <div id="card-pause" class="note-card hidden">
+              <div class="tape" aria-hidden="true"></div>
+              <h2 class="card-title">PAUSED</h2>
+              <p class="card-sub">press P</p>
+            </div>
+
+            <div id="card-over" class="note-card hidden">
+              <div class="tape" aria-hidden="true"></div>
+              <h2 class="card-title">GAME OVER</h2>
+              <p class="card-sub">final score <span id="over-score">0</span></p>
+              <p class="card-sub small">best <span id="over-best">0</span></p>
+              <div id="new-best" class="new-best hidden">NEW BEST!</div>
+              <button id="play-again" class="sketch-btn">PLAY AGAIN (R)</button>
+            </div>
+          </div>
+        </div>
+
+        <aside id="side">
+          <div class="panel panel-hold">
+            <div class="panel-label">HOLD</div>
+            <div class="sketch-box hold-box" id="hold-box"><canvas id="hold-canvas"></canvas></div>
+          </div>
+
+          <div class="panel panel-next">
+            <div class="panel-label">NEXT</div>
+            <div class="sketch-box next-box" id="next-box"><canvas id="next-canvas"></canvas></div>
+          </div>
+
+          <div class="rule"></div>
+
+          <div class="panel score-panel">
+            <div class="panel-label">SCORE</div>
+            <div id="score-value">0</div>
+            <div id="best-value">BEST 0</div>
+          </div>
+
+          <div class="rule"></div>
+
+          <div id="stats-row">
+            <div class="stat">
+              <div class="panel-label">LEVEL</div>
+              <div id="level-value" class="stat-num">01</div>
+            </div>
+            <div class="stat">
+              <div class="panel-label">LINES</div>
+              <div id="lines-value" class="stat-num">0</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div id="sheet-bottom">
+        <div class="rule"></div>
+        <div id="settings-row">
+          <button class="check" data-setting="sound" type="button"><span class="checkbox">✓</span><span class="check-label">SOUND</span></button>
+          <button class="check" data-setting="music" type="button"><span class="checkbox">✓</span><span class="check-label">MUSIC</span></button>
+          <button class="check" data-setting="grain" type="button"><span class="checkbox">✓</span><span class="check-label">GRAIN: <span id="grain-label">FULL</span></span></button>
+        </div>
+
+        <div id="legend">
+          <div class="legend-line">
+            <span class="k">←→ MOVE</span><span class="sep">·</span>
+            <span class="k">↓ SOFT DROP</span><span class="sep">·</span>
+            <span class="k">SPACE HARD DROP</span><span class="sep">·</span>
+            <span class="k">↑/X ROTATE</span>
+          </div>
+          <div class="legend-line">
+            <span class="k">Z COUNTER</span><span class="sep">·</span>
+            <span class="k">A FLIP(180°)</span><span class="sep">·</span>
+            <span class="k">C HOLD</span><span class="sep">·</span>
+            <span class="k">P PAUSE</span><span class="sep">·</span>
+            <span class="k">R RESTART</span>
+          </div>
+        </div>
+
+        <div id="touch-controls">
+          <button class="tbtn" data-act="left" type="button">◀</button>
+          <button class="tbtn" data-act="right" type="button">▶</button>
+          <button class="tbtn" data-act="down" type="button">▼</button>
+          <button class="tbtn" data-act="ccw" type="button">⟲</button>
+          <button class="tbtn" data-act="cw" type="button">⟳</button>
+          <button class="tbtn" data-act="hard" type="button">⤓</button>
+          <button class="tbtn wide" data-act="hold" type="button">HOLD</button>
+          <button class="tbtn wide" data-act="pause" type="button">PAUSE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="grain-layer" class="grain-full" aria-hidden="true">
+    <div id="grain-noise"></div>
+    <div id="grain-scanlines"></div>
+    <div id="grain-scratch"></div>
+    <div id="grain-vignette"></div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

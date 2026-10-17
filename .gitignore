@@ -1,0 +1,4 @@
+ref/
+screenshot*.png
+*.bak
+node_modules/
