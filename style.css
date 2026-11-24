@@ -243,6 +243,9 @@ body::before {
 
 /* The garden: a canvas wrapped round the board (sized in game.js), under the tool buttons and cards. */
 #garden-layer { position: absolute; pointer-events: none; }
+/* back to the home page the game is published from */
+.home-back { display: block; width: max-content; margin: 0 0 6px; font-size: 12px; letter-spacing: 1px; color: var(--ink-faded); text-decoration: none; }
+.home-back:hover, .home-back:focus-visible { color: var(--red); }
 #continue-run { display: block; margin: 4px auto 14px; font-size: 14px; }
 #menu-garden { display: block; width: 230px; height: 118px; margin: 6px auto 0; }
 
