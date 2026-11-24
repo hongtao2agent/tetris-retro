@@ -1,0 +1,35 @@
+{
+  "provider": "Gemini API",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Aoede",
+  "revision": "gemini-v2",
+  "style": "Speak in natural standard Mandarin Chinese as a young adult female game companion. Warm, clear, lightly playful, conversational and relaxed, with a small smile. A quick spontaneous reaction to a friend playing a puzzle game, never a stiff announcer or a text-reading robot. Natural pitch and natural sentence stress, no exaggerated cutesy voice, no singing, no background sounds. Say only the exact Chinese transcript.",
+  "variant_styles": {
+    "a": "Brief delighted praise; crisp and confident.",
+    "b": "Playful pleasant surprise, with a smile in the voice.",
+    "c": "Warm encouragement and shared satisfaction, friendly and easy-going."
+  },
+  "lines": {
+    "clear-2-a": "双消，漂亮！",
+    "clear-2-b": "一次带走两层，赚到啦！",
+    "clear-2-c": "节奏不错，继续保持！",
+    "clear-3-a": "三连消！太流畅了！",
+    "clear-3-b": "哇，这波有点厉害哦！",
+    "clear-3-c": "三层一起清掉，舒服！",
+    "clear-4-a": "四连消！这把太帅啦！",
+    "clear-4-b": "哇，全场高光！给你撒花！",
+    "clear-4-c": "方块大师，就是你啦！",
+    "near": "就差一点点啦，稳住，马上过关！",
+    "passed": "过关啦！这波配合，满分！",
+    "complete": "十关全过！方块大师，恭喜你呀！",
+    "start": "准备好了吗？一起闯关吧！",
+    "next": "新的一关，冲呀！",
+    "retry": "差一点点，再来一次！"
+  },
+  "model_overrides": {
+    "complete": "gemini-3.8-flash-lite-tts",
+    "start": "gemini-3.8-flash-lite-tts",
+    "next": "gemini-3.8-flash-lite-tts",
+    "retry": "gemini-3.8-flash-lite-tts"
+  }
+}

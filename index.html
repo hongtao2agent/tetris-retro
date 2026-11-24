@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -10,17 +10,61 @@
 </head>
 <body>
   <div id="stage">
-    <div id="sheet">
+    <div id="sheet" class="game-mode">
       <div class="graph-overlay" aria-hidden="true"></div>
+      <div id="sheet-glow" aria-hidden="true"></div>
       <div id="sheet-title">GRAPHITE BLOCKS</div>
+      <button id="menu-button" class="text-button" type="button">目录 ☰</button>
+
+      <section id="menu-screen" class="book-screen" aria-label="游戏目录">
+        <div class="book-eyebrow">A LITTLE SPACE FOR FALLING BLOCKS</div>
+        <h1>方格之间</h1>
+        <p class="book-intro">落下一块，找到你的节奏。</p>
+        <button id="continue-run" class="sketch-btn" type="button" hidden>继续上次闯关</button>
+        <div class="mode-tabs" role="group" aria-label="选择玩法">
+          <button id="mode-classic" class="selected" type="button" aria-pressed="true">经典闯关 <span>10 STAGES</span></button>
+          <button id="mode-endless" type="button" aria-pressed="false">无限模式 <span>ENDLESS</span></button>
+          <button id="mode-zen" type="button" aria-pressed="false">静页 <span>QUIET PAGE</span></button>
+        </div>
+        <div id="classic-description" class="mode-description">
+          <div class="campaign-heading"><span>THE TEN-CHAPTER JOURNEY</span><h2>十关，一路开花。</h2></div>
+          <p>点击下方选择关卡。攒够目标积分，就为你撒花。</p>
+          <div id="stage-roadmap" role="group" aria-label="选择起始关卡，十关均可直接进入"></div>
+          <p id="stage-selection" class="stage-selection" role="status"></p>
+          <p id="stage-music" class="stage-music"></p>
+          <p class="campaign-rules">每关积分归零 · 速度逐关加快 · 消行得分 × 关数<br>可从任意一关开始，随后接着挑战未完成关卡。<br>一轮完成全部十关才算通关；重新选关会开启新一轮。</p>
+          <p>方向键移动和旋转 · 空格落下 · C 暂存<br>1 闪电 · 2 风 · 3 积水，一次消四行随机再得一件</p>
+        </div>
+        <div id="endless-description" class="mode-description" hidden>
+          <div class="campaign-heading"><span>ONE MORE BLOCK, ONE MORE POSSIBILITY</span><h2>下一块，新纪录。</h2></div>
+          <p>自在落块，持续累积分数。<br>直到方块堆满，看看这次能走多远。</p>
+          <p class="stage-music">♫ 声景 · 林间细雨</p>
+          <div class="endless-record-card"><span>我的最高分</span><strong id="endless-record">0</strong><small>每一次突破，都为你记下。</small></div>
+          <p class="campaign-rules">不设关卡与目标分 · 随消行平滑加速<br>单局积分不归零，堆满后可重新挑战。</p>
+          <p>方向键移动和旋转 · 空格落下 · C 暂存</p>
+        </div>
+        <div id="zen-description" class="mode-description" hidden>
+          <div class="campaign-heading"><span>A QUIET PAGE, NO HURRY</span><h2>慢慢落笔，自成一曲。</h2></div>
+          <p>每一次移动、旋转和落下，都是一个音。<br>不计胜负；写满了，就翻到新的一页。</p>
+          <p class="campaign-rules">速度始终不变 · 没有失败，也没有目标分<br>背景是屋内听雨，没有语音。<br>戴上耳机更好听。</p>
+          <p>方向键移动和旋转 · 空格落下 · C 暂存</p>
+        </div>
+        <button id="begin-game" class="sketch-btn primary" type="button">从第 01 关出发 →</button>
+        <button id="resume-game" class="text-button" type="button" hidden>返回当前游戏</button>
+        <p id="book-footnote" class="book-footnote">最佳总分保存在此浏览器。</p>
+        <canvas id="menu-garden" aria-hidden="true"></canvas>
+        <p id="garden-note" class="book-footnote"></p>
+        <p class="music-credit">声景：雨声实地录音与氛围长音 · <a href="music/LICENSE.txt" target="_blank" rel="noopener">CC0 与公有领域</a></p>
+      </section>
 
       <div id="sheet-main">
         <div id="playfield">
           <canvas id="board-canvas"></canvas>
+          <canvas id="garden-layer" aria-hidden="true"></canvas>
           <div id="field-overlays">
             <div id="popup-layer"></div>
 
-            <div id="card-start" class="note-card">
+            <div id="card-start" class="note-card hidden">
               <div class="tape" aria-hidden="true"></div>
               <h1 class="card-title">GRAPHITE BLOCKS</h1>
               <p class="card-sub">press ENTER or tap to start<span class="blink">_</span></p>
@@ -30,15 +74,17 @@
               <div class="tape" aria-hidden="true"></div>
               <h2 class="card-title">PAUSED</h2>
               <p class="card-sub">press P</p>
+              <button id="resume-pause" class="sketch-btn" type="button">继续</button>
             </div>
 
             <div id="card-over" class="note-card hidden">
               <div class="tape" aria-hidden="true"></div>
-              <h2 class="card-title">GAME OVER</h2>
-              <p class="card-sub">final score <span id="over-score">0</span></p>
-              <p class="card-sub small">best <span id="over-best">0</span></p>
+              <h2 class="card-title">再试一次</h2>
+              <p id="over-stage" class="card-sub"></p>
+              <p class="card-sub"><span id="over-score-label">本关得分</span> <span id="over-score">0</span></p>
+              <p class="card-sub small"><span id="over-best-label">最佳总分</span> <span id="over-best">0</span></p>
               <div id="new-best" class="new-best hidden">NEW BEST!</div>
-              <button id="play-again" class="sketch-btn">PLAY AGAIN (R)</button>
+              <button id="play-again" class="sketch-btn">重试本关 (R)</button>
             </div>
           </div>
         </div>
@@ -64,24 +110,35 @@
 
           <div class="rule"></div>
 
-          <div id="stats-row">
-            <div class="stat">
-              <div class="panel-label">LEVEL</div>
-              <div id="level-value" class="stat-num">01</div>
+          <div id="info-row">
+            <div id="stats-row">
+              <div id="stage-stat" class="stat">
+                <div id="level-label" class="panel-label">LEVEL</div>
+                <div id="level-value" class="stat-num">01</div>
+              </div>
+              <div class="stat">
+                <div class="panel-label">LINES</div>
+                <div id="lines-value" class="stat-num">0</div>
+              </div>
             </div>
-            <div class="stat">
-              <div class="panel-label">LINES</div>
-              <div id="lines-value" class="stat-num">0</div>
+            <div id="tools-panel">
+              <div id="tools-row">
+              <button id="tool-bolt" class="tool-btn" type="button" title="闪电：劈开下落的方块，四格各自落到底" aria-label="闪电：劈开下落的方块，四格各自落到底"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 5 13h6l-2 9 9-12h-6z"/></svg><span class="tool-key">1</span><span id="tool-bolt-count" class="tool-count">1</span></button>
+              <button id="tool-wind" class="tool-btn" type="button" title="风：把整堆方块吹向一侧" aria-label="风：把整堆方块吹向一侧"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h11a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h8"/></svg><span id="tool-wind-dir" class="tool-dir">←</span><span class="tool-key">2</span><span id="tool-wind-count" class="tool-count">1</span></button>
+              <button id="tool-flood" class="tool-btn" type="button" title="积水：填满并消除最底下一行" aria-label="积水：填满并消除最底下一行"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c3 4.5 5.5 7.6 5.5 10.8a5.5 5.5 0 0 1-11 0C6.500 10.600 9 7.500 12 3z"/></svg><span class="tool-key">3</span><span id="tool-flood-count" class="tool-count">1</span></button>
+              </div>
             </div>
           </div>
         </aside>
       </div>
 
       <div id="sheet-bottom">
+        <div id="voice-caption-slot"><div id="voice-caption" role="status" aria-live="polite" hidden></div></div>
         <div class="rule"></div>
         <div id="settings-row">
           <button class="check" data-setting="sound" type="button"><span class="checkbox">✓</span><span class="check-label">SOUND</span></button>
           <button class="check" data-setting="music" type="button"><span class="checkbox">✓</span><span class="check-label">MUSIC</span></button>
+          <button class="check" data-setting="voice" type="button" aria-label="女生语音"><span class="checkbox">✓</span><span class="check-label">语音</span></button>
           <button class="check" data-setting="grain" type="button"><span class="checkbox">✓</span><span class="check-label">GRAIN: <span id="grain-label">FULL</span></span></button>
         </div>
 
@@ -99,6 +156,11 @@
             <span class="k">P PAUSE</span><span class="sep">·</span>
             <span class="k">R RESTART</span>
           </div>
+          <div class="legend-line">
+            <span class="k">1 LIGHTNING</span><span class="sep">·</span>
+            <span class="k">2 WIND</span><span class="sep">·</span>
+            <span class="k">3 FLOOD</span>
+          </div>
         </div>
 
         <div id="touch-controls">
@@ -112,8 +174,24 @@
           <button class="tbtn wide" data-act="pause" type="button">PAUSE</button>
         </div>
       </div>
+
+      <div id="celebration-confetti" aria-hidden="true" hidden></div>
+      <section id="stage-result" class="book-dialog stage-result" role="dialog" aria-modal="true" aria-labelledby="stage-result-title" hidden>
+        <div id="stage-result-eyebrow" class="book-eyebrow"></div>
+        <div id="stage-result-seal" class="victory-seal" aria-hidden="true">✦</div>
+        <h2 id="stage-result-title"></h2>
+        <p id="stage-result-message"></p>
+        <div class="result-score"><span>本关得分</span><strong id="stage-result-score"></strong><small id="stage-result-target"></small></div>
+        <div class="result-stats"><span id="stage-result-lines"></span><span id="stage-result-total"></span></div>
+        <div id="stage-result-path" class="result-path" aria-label="闯关进度"></div>
+        <p id="stage-next-hint" class="dialog-hint"></p>
+        <button id="next-stage" class="sketch-btn primary" type="button">下一关 →</button>
+        <button class="text-button back-to-book" type="button">返回目录</button>
+      </section>
     </div>
   </div>
+
+  <canvas id="rain-layer" aria-hidden="true"></canvas>
 
   <div id="grain-layer" class="grain-full" aria-hidden="true">
     <div id="grain-noise"></div>

@@ -1,0 +1,18 @@
+Graphite Blocks — background ambience
+=====================================
+
+Every loop is a rain field recording mixed with a sustained pad generated for this game
+(scripts/build-ambience.py). The recordings come from Wikimedia Commons; licence labels
+are those shown on each file page on 2026-11-12.
+
+Light Rain Distant Thunder July 5th 2016.wav
+  Recorded by: kvgarlic (freesound.org)
+  Licence:     CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)
+  Source:      https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav
+  Used in:     music/stage-01.m4a, music/stage-03.m4a, music/stage-04.m4a, music/stage-06.m4a, music/stage-07.m4a, music/stage-09.m4a, music/stage-10.m4a, music/endless.m4a, music/zen.m4a
+
+Rain against the window.ogg
+  Recorded by: cori (PDSounds)
+  Licence:     Public domain
+  Source:      https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg
+  Used in:     music/stage-02.m4a, music/stage-05.m4a, music/stage-08.m4a

@@ -235,6 +235,38 @@ body::before {
   color: var(--ink);
 }
 
+/* Lamp light on the page: a clear sky, or a run of clears (opacity set from game.js). */
+#sheet-glow {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0;
+  background: radial-gradient(130% 95% at 16% 0%, rgba(255,186,84,0.34), rgba(255,210,134,0.14) 46%, transparent 78%);
+}
+
+/* The garden: a canvas wrapped round the board (sized in game.js), under the tool buttons and cards. */
+#garden-layer { position: absolute; pointer-events: none; }
+#continue-run { display: block; margin: 4px auto 14px; font-size: 14px; }
+#menu-garden { display: block; width: 230px; height: 118px; margin: 6px auto 0; }
+
+/* Rainy-day tools */
+#info-row { display: flex; flex-direction: column; gap: 9px; }
+#tools-panel { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+#tools-row { display: flex; justify-content: center; gap: 12px; }
+.tool-btn {
+  position: relative; display: grid; place-items: center; width: 46px; height: 40px; padding: 0;
+  border: 1.6px solid var(--ink); border-radius: 12px 4px 10px 5px / 5px 10px 4px 12px;
+  background: rgba(255,252,240,0.14); color: var(--ink); font: inherit; cursor: pointer;
+  box-shadow: 1px 1px 0 rgba(66,59,43,0.3);
+}
+.tool-btn svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.tool-btn:active { transform: translate(1px, 1px); box-shadow: none; }
+.tool-btn.empty { opacity: .32; }
+.tool-btn.earned { animation: scribble 420ms ease-out; }
+.tool-count {
+  position: absolute; right: -7px; top: -8px; min-width: 17px; height: 17px; padding: 0 3px;
+  border: 1px solid var(--ink); border-radius: 9px; background: var(--paper); font-size: 10px; line-height: 15px;
+}
+.tool-key { position: absolute; left: 4px; bottom: 1px; font-size: 8px; color: var(--ink-faded); }
+.tool-dir { position: absolute; right: 4px; bottom: 0; font-size: 9px; color: var(--ink-soft); }
+
 /* ---------------------------------------------------------
    Bottom section: settings + legend + touch
    --------------------------------------------------------- */
@@ -431,6 +463,9 @@ body::before {
    --------------------------------------------------------- */
 #sheet { will-change: transform; }
 
+/* Pencil-drawn rain over the desk and the page (below the grain). */
+#rain-layer { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 40; pointer-events: none; }
+
 /* ---------------------------------------------------------
    Film grain overlay
    --------------------------------------------------------- */
@@ -441,6 +476,8 @@ body::before {
   pointer-events: none;
 }
 #grain-layer.grain-off { display: none; }
+/* 静页 is plain paper: no CRT scanlines, no film scratches. */
+#grain-layer.grain-zen #grain-scanlines, #grain-layer.grain-zen #grain-scratch { display: none; }
 
 #grain-noise {
   position: absolute;
@@ -533,11 +570,15 @@ body::before {
   .panel-hold { grid-area: hold; }
   .panel-next { grid-area: next; }
   .score-panel { grid-area: score; }
-  #stats-row {
-    grid-area: stats;
-    justify-content: center;
-    gap: 18px;
-  }
+  #info-row { grid-area: stats; margin-bottom: 6px; }   /* room for the garden's garland over the board */
+  #stats-row { justify-content: center; gap: 18px; }
+  /* the tools leave the crowded top bar for the gutter right of the board, upper-middle, within thumb reach */
+  #tools-panel, #tools-row { display: contents; }
+  .tool-btn { position: absolute; z-index: 3; right: 2px; width: 44px; height: 44px; }
+  #tool-bolt { top: 30%; }
+  #tool-wind { top: calc(30% + 58px); }
+  #tool-flood { top: calc(30% + 116px); }
+  .tool-key { display: none; }
 
   #side .panel { flex-direction: column; align-items: center; gap: 2px; }
   .panel-label { font-size: 13px; }
@@ -565,4 +606,146 @@ body::before {
 
 @media (min-width: 700px) and (orientation: landscape) {
   #touch-controls { display: none; }
+}
+
+/* Mode menu and paper dialogs. */
+[hidden] { display: none !important; }
+button { -webkit-tap-highlight-color: transparent; }
+button:focus-visible { outline: 2px dashed var(--red); outline-offset: 4px; }
+button:disabled { opacity: .42; cursor: default; }
+.text-button { border: 0; background: none; color: var(--ink-soft); font: inherit; font-size: 13px; padding: 9px; cursor: pointer; }
+#menu-button { position: absolute; top: 4px; right: 16px; z-index: 8; }
+.book-screen, .book-dialog { font-family: 'ArchitectsDaughter', 'Kaiti SC', KaiTi, 'STKaiti', serif; }
+.book-screen {
+  position: absolute; inset: 34px 4% 16px; z-index: 12; overflow-y: auto;
+  padding: clamp(14px, 2.8vh, 28px) 7%; text-align: center;
+  background: #e4dcc3;
+  background-image: repeating-linear-gradient(transparent 0 27px, rgba(105,91,64,.08) 27px 28px);
+  border: 1px solid #b3a88c; box-shadow: 3px 5px 0 #bfb59c, 5px 7px 0 #9e927a;
+  touch-action: pan-y; scrollbar-width: thin;
+}
+.book-eyebrow { color: #8a5e4b; font-size: 10px; letter-spacing: 2px; }
+.book-screen h1 { font-size: clamp(30px, 4.5vh, 46px); font-weight: 400; margin: 8px 0; letter-spacing: 9px; }
+.book-intro { font-size: 14px; color: var(--ink-soft); margin-bottom: 20px; }
+.mode-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid #b2a58b; margin-bottom: 18px; }
+.mode-tabs button { border: 0; border-bottom: 3px solid transparent; background: none; padding: 10px 0; color: var(--ink-soft); font: inherit; font-size: 17px; cursor: pointer; }
+.mode-tabs button.selected { border-color: var(--red); color: var(--red); }
+.mode-tabs span { display: block; font-size: 9px; letter-spacing: 2px; margin-top: 4px; }
+.sketch-btn.primary { background: #8d5144; color: #fff1d8; border-color: #744539; min-height: 42px; }
+#begin-game { width: 100%; margin-top: 10px; font-size: 16px; letter-spacing: 2px; }
+.book-footnote { font-size: 10px; color: #827661; margin-top: 12px; }
+.mode-description { padding: 15px 0 30px; }
+.mode-description h2 { font-size: 20px; font-weight: 400; margin: 16px 0; }
+.mode-description p { font-size: 13px; line-height: 2; color: var(--ink-soft); }
+.endless-record-card { margin: 20px 0; padding: 18px 10px; border: 1px solid #b6b59a; border-radius: 4px 12px 3px 8px; background: #dce0c980; }
+.endless-record-card span, .endless-record-card small { display: block; font-size: 12px; color: #65725a; }
+.endless-record-card strong { display: block; font-size: 40px; font-weight: 400; color: #566d54; margin: 5px 0; }
+.book-dialog {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-1deg);
+  z-index: 11; width: min(370px, 88%); max-height: 85%; overflow-y: auto; padding: 30px 24px 20px;
+  background: #eee5cc; border: 1px solid #b8a789; box-shadow: 0 0 0 100vmax rgba(35,29,19,.38), 3px 10px 25px #40312155;
+  text-align: center; line-height: 1.7; touch-action: pan-y;
+}
+.book-dialog h2 { font-weight: 400; font-size: 27px; margin: 12px 0; }
+.book-dialog p { font-size: 15px; }
+.book-dialog .dialog-hint { font-size: 12px; color: var(--ink-soft); margin-top: 14px; }
+.book-dialog .primary { display: block; width: 100%; margin: 22px 0 6px; }
+@media (max-width: 699px), (orientation: portrait) {
+  #menu-button { top: 0; right: 4px; font-size: 11px; }
+  .book-screen { inset: 29px 9px 12px; padding: 15px 18px; }
+  .book-screen h1 { font-size: 31px; margin: 5px 0; }
+  .book-intro { margin-bottom: 12px; font-size: 12px; }
+  .mode-tabs { margin-bottom: 12px; }
+  .mode-tabs button { padding: 8px 0; font-size: 16px; }
+  #sheet-bottom { margin-top: 5px; }
+  #touch-controls { gap: 5px; padding-top: 1px; flex-wrap: nowrap; }
+  .tbtn { flex: 1; min-width: 0; height: 40px; padding: 0 4px; }
+  .tbtn.wide { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .popup, .blink, .scribble, #grain-scanlines { animation: none; }
+}
+
+/* Ten-stage campaign: pencilled progress, scorecards and paper confetti. */
+.campaign-heading { padding-top: 8px; }
+.campaign-heading > span { font-size: 9px; letter-spacing: 2px; color: #8a5e4b; }
+.mode-description .campaign-heading h2 { font-size: 32px; letter-spacing: 4px; margin: 8px 0 12px; }
+#stage-roadmap { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 22px 0 16px; }
+.roadmap-stop { font: inherit; color: var(--ink); cursor: pointer; min-height: 76px; min-width: 0; background: #f0e8d1; border: 1px solid #c1b296; border-radius: 3px 8px 2px 5px; padding: 9px 2px; }
+.roadmap-stop.selected { border-color: #955444; background: #ead2b9; box-shadow: inset 0 -3px #955444; }
+.roadmap-stop:hover { background: #eee0c6; }
+.mode-description .stage-selection { font-size: 12px; color: #8d5144; margin: 8px 0 2px; }
+.mode-description .stage-music { font-size: 11px; margin: 0 0 12px; color: #64765b; }
+.music-credit { font-size: 10px; color: #827661; }
+.music-credit a { color: inherit; text-underline-offset: 3px; }
+.roadmap-stop:nth-child(even) { transform: rotate(1deg); }
+.roadmap-stop > span { display: block; font-size: 11px; color: #a05c4c; }
+.roadmap-stop strong { display: block; font-size: 16px; font-weight: 400; margin: 5px 0; }
+.roadmap-stop small { font-size: 10px; color: #7b6f5c; }
+.mode-description .campaign-rules { font-size: 12px; }
+.game-mode #sheet-main { margin-top: 46px; height: calc(var(--sheet-h) - 210px); }
+.game-mode #playfield { width: 48%; }
+.game-mode #side { width: 38%; gap: 7px; }
+.game-mode .hold-box { height: 65px; }
+.game-mode .next-box { height: 130px; }
+.game-mode .panel-label { font-size: 16px; }
+.game-mode #score-value { font-size: 25px; }
+.game-mode #best-value { font-size: 11px; }
+.game-mode #sheet-bottom { margin-top: 12px; }
+#voice-caption-slot { position: relative; height: 36px; flex: 0 0 36px; }
+#voice-caption { position: absolute; inset: 0; z-index: 9; max-width: 100%; padding: 9px 12px; background: #f1e8ccf2; border: 1px dashed #b39b78; border-radius: 3px 8px 3px 6px; box-shadow: 1px 3px 8px #53452c22; text-align: center; font-size: 13px; line-height: 1.5; pointer-events: none; }
+#settings-row { flex-wrap: wrap; gap: 8px 14px; }
+.stage-result { z-index: 14; width: min(400px, 90%); padding: 25px 25px 18px; border-radius: 4px 12px 3px 8px; background-image: repeating-linear-gradient(transparent 0 27px, #a89b7812 27px 28px); }
+.stage-result h2 { font-size: 27px; margin: 8px 0; color: #8c5142; }
+.stage-result > p { font-size: 13px; }
+.victory-seal { display: grid; place-content: center; margin: 18px auto 12px; width: 90px; height: 90px; border: 3px double #a6614d; border-radius: 50%; color: #a6614d; font-size: 32px; transform: rotate(-9deg); animation: victoryIn .65s cubic-bezier(.18,.8,.3,1.2); }
+.all-complete .victory-seal { width: 120px; height: 100px; border-radius: 45% 55%; border-color: #a58142; color: #8f7036; }
+.result-score { margin: 18px 0 12px; padding: 12px; border-top: 1px solid #bcab88; border-bottom: 1px solid #bcab88; }
+.result-score > span, .result-score small { display: block; font-size: 11px; color: #85765e; }
+.result-score strong { display: block; font-weight: 400; font-size: 40px; line-height: 1.3; color: #594e3c; }
+.result-stats { display: flex; justify-content: space-around; gap: 8px; font-size: 12px; color: #6d634f; }
+.result-path { display: flex; justify-content: center; gap: 4px; margin: 17px 0 0; }
+.result-path span { flex: 1; max-width: 26px; padding: 3px 0; font-size: 11px; color: #a89c80; border-bottom: 1px solid #b6aa90; }
+.result-path .passed { color: #9c604c; border-color: #9c604c; }
+#stage-next-hint { white-space: pre-line; }
+#celebration-confetti { position: absolute; inset: 0; z-index: 15; overflow: hidden; pointer-events: none; }
+#celebration-confetti i { position: absolute; width: 8px; height: 13px; background: var(--petal); opacity: 0; border-radius: 1px 3px 1px 2px; animation: paperFall var(--fall-duration) var(--fall-delay) ease-in forwards; }
+#celebration-confetti i:nth-child(3n) { border-radius: 50%; width: 10px; height: 10px; }
+@keyframes paperFall { 0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0); } 7% { opacity: .95; } 85% { opacity: .9; } 100% { opacity: 0; transform: translate3d(var(--drift), 100vh, 0) rotate(var(--turn)); } }
+@keyframes victoryIn { from { opacity: 0; transform: rotate(-24deg) scale(1.6); } to { opacity: 1; transform: rotate(-9deg) scale(1); } }
+@media (max-width: 699px), (orientation: portrait) {
+  .mode-description { padding-top: 6px; padding-bottom: 14px; }
+  .mode-description .campaign-heading h2 { font-size: 26px; letter-spacing: 2px; }
+  #stage-roadmap { gap: 6px; margin: 16px 0; }
+  .roadmap-stop strong { font-size: 14px; }
+  .roadmap-stop small { font-size: 9px; }
+  .game-mode #sheet-main { margin-top: 0; height: auto; padding-top: 25px; }
+  .game-mode #playfield { width: 100%; }
+  .game-mode #side { width: 100%; gap: 2px 6px; }
+  .game-mode #side .sketch-box { height: 34px; width: 58px; }
+  .game-mode .panel-label { font-size: 11px; }
+  .game-mode #stats-row .stat { display: flex; gap: 5px; align-items: baseline; }
+  .game-mode #sheet-bottom { margin-top: 5px; padding-top: 0; padding-bottom: env(safe-area-inset-bottom, 3px); }
+  #voice-caption-slot { height: 32px; flex-basis: 32px; }
+  #voice-caption { font-size: 12px; padding: 4px 10px; display: grid; align-items: center; }
+  #settings-row { gap: 6px 8px; flex-wrap: nowrap; }
+  .check { font-size: 11px; gap: 4px; }
+  .check .checkbox { width: 12px; height: 12px; }
+  .stage-result { padding: 19px 18px 12px; max-height: 88%; }
+}
+@media (max-height: 720px) and (min-width: 700px) and (orientation: landscape) {
+  .game-mode #side { gap: 3px; }
+  .game-mode .hold-box { height: 40px; }
+  .game-mode .next-box { height: 75px; }
+  .game-mode #side .rule, .game-mode #legend { display: none; }
+  .game-mode #sheet-main { height: calc(var(--sheet-h) - 180px); }
+}
+@media (max-width: 360px) {
+  #stage-roadmap { gap: 4px; }
+  .roadmap-stop { padding-inline: 1px; }
+  .roadmap-stop strong { font-size: 12px; letter-spacing: -.3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .victory-seal, #celebration-confetti i { animation: none; }
+  #celebration-confetti i { top: 4% !important; opacity: .65; transform: rotate(var(--turn)); }
 }

@@ -1,0 +1,13 @@
+# Only publish the files used by the game.
+*
+!index.html
+!style.css
+!game.js
+!fonts
+!fonts/**
+!audio
+!audio/*.m4a
+!music
+!music/*.m4a
+!music/LICENSE.txt
+!vercel.json

@@ -1,0 +1,275 @@
+{
+  "collection": "Rain field recordings with a generated sustained pad",
+  "revision": "rain-v1",
+  "processing": "Each bed is crossfaded into a seamless loop, levelled to about -30 dB mean, mixed with a generated root-fifth-ninth pad at -37 dB mean, AAC 96 kbps stereo at 44.1 kHz. Built by scripts/build-ambience.py.",
+  "sources": [
+    {
+      "file": "Light Rain Distant Thunder July 5th 2016.wav",
+      "author": "kvgarlic (freesound.org)",
+      "license": "CC0 1.0",
+      "url": "https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav",
+      "sha256": "aa85a4aa26b261b8d8d9da52df3cb1c7f09aa86f5253e835ff5e15513e2451cb"
+    },
+    {
+      "file": "Rain against the window.ogg",
+      "author": "cori (PDSounds)",
+      "license": "Public domain",
+      "url": "https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg",
+      "sha256": "85be295e9936fbf003ae5dbc0e106b77e60854ea4b19bfb7b232420f291a737e"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "stage-01",
+      "title": "林间细雨 · D 调",
+      "bed": "open",
+      "key": "D",
+      "scale": [
+        2,
+        4,
+        6,
+        9,
+        11
+      ],
+      "bass": 38,
+      "file": "music/stage-01.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 96.25,
+      "source": "Light Rain Distant Thunder July 5th 2016.wav",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav",
+      "license": "CC0 1.0",
+      "bytes": 1194892
+    },
+    {
+      "id": "stage-02",
+      "title": "窗边的雨 · G 调",
+      "bed": "window",
+      "key": "G",
+      "scale": [
+        2,
+        4,
+        7,
+        9,
+        11
+      ],
+      "bass": 43,
+      "file": "music/stage-02.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 70.25,
+      "source": "Rain against the window.ogg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg",
+      "license": "Public domain",
+      "bytes": 876645
+    },
+    {
+      "id": "stage-03",
+      "title": "屋内听雨 · C 调",
+      "bed": "indoor",
+      "key": "C",
+      "scale": [
+        0,
+        2,
+        4,
+        7,
+        9
+      ],
+      "bass": 36,
+      "file": "music/stage-03.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 96.25,
+      "source": "Light Rain Distant Thunder July 5th 2016.wav",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav",
+      "license": "CC0 1.0",
+      "bytes": 1194299
+    },
+    {
+      "id": "stage-04",
+      "title": "林间细雨 · F 调",
+      "bed": "open",
+      "key": "F",
+      "scale": [
+        0,
+        2,
+        5,
+        7,
+        9
+      ],
+      "bass": 41,
+      "file": "music/stage-04.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 96.25,
+      "source": "Light Rain Distant Thunder July 5th 2016.wav",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav",
+      "license": "CC0 1.0",
+      "bytes": 1194760
+    },
+    {
+      "id": "stage-05",
+      "title": "窗边的雨 · A 调",
+      "bed": "window",
+      "key": "A",
+      "scale": [
+        1,
+        4,
+        6,
+        9,
+        11
+      ],
+      "bass": 45,
+      "file": "music/stage-05.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 70.25,
+      "source": "Rain against the window.ogg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg",
+      "license": "Public domain",
+      "bytes": 875417
+    },
+    {
+      "id": "stage-06",
+      "title": "屋内听雨 · E 调",
+      "bed": "indoor",
+      "key": "E",
+      "scale": [
+        1,
+        4,
+        6,
+        8,
+        11
+      ],
+      "bass": 40,
+      "file": "music/stage-06.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 96.25,
+      "source": "Light Rain Distant Thunder July 5th 2016.wav",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav",
+      "license": "CC0 1.0",
+      "bytes": 1194602
+    },
+    {
+      "id": "stage-07",
+      "title": "林间细雨 · G 调",
+      "bed": "open",
+      "key": "G",
+      "scale": [
+        2,
+        4,
+        7,
+        9,
+        11
+      ],
+      "bass": 43,
+      "file": "music/stage-07.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 96.25,
+      "source": "Light Rain Distant Thunder July 5th 2016.wav",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav",
+      "license": "CC0 1.0",
+      "bytes": 1194603
+    },
+    {
+      "id": "stage-08",
+      "title": "窗边的雨 · D 调",
+      "bed": "window",
+      "key": "D",
+      "scale": [
+        2,
+        4,
+        6,
+        9,
+        11
+      ],
+      "bass": 38,
+      "file": "music/stage-08.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 70.25,
+      "source": "Rain against the window.ogg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg",
+      "license": "Public domain",
+      "bytes": 876055
+    },
+    {
+      "id": "stage-09",
+      "title": "屋内听雨 · F 调",
+      "bed": "indoor",
+      "key": "F",
+      "scale": [
+        0,
+        2,
+        5,
+        7,
+        9
+      ],
+      "bass": 41,
+      "file": "music/stage-09.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 96.25,
+      "source": "Light Rain Distant Thunder July 5th 2016.wav",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav",
+      "license": "CC0 1.0",
+      "bytes": 1194515
+    },
+    {
+      "id": "stage-10",
+      "title": "林间细雨 · A 调",
+      "bed": "open",
+      "key": "A",
+      "scale": [
+        1,
+        4,
+        6,
+        9,
+        11
+      ],
+      "bass": 45,
+      "file": "music/stage-10.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 96.25,
+      "source": "Light Rain Distant Thunder July 5th 2016.wav",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav",
+      "license": "CC0 1.0",
+      "bytes": 1194592
+    },
+    {
+      "id": "endless",
+      "title": "林间细雨 · C 调",
+      "bed": "open",
+      "key": "C",
+      "scale": [
+        0,
+        2,
+        4,
+        7,
+        9
+      ],
+      "bass": 36,
+      "file": "music/endless.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 96.25,
+      "source": "Light Rain Distant Thunder July 5th 2016.wav",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav",
+      "license": "CC0 1.0",
+      "bytes": 1194847
+    },
+    {
+      "id": "zen",
+      "title": "屋内听雨 · D 调",
+      "bed": "indoor",
+      "key": "D",
+      "scale": [
+        2,
+        4,
+        6,
+        9,
+        11
+      ],
+      "bass": 38,
+      "file": "music/zen.m4a",
+      "loopStart": 0.25,
+      "loopEnd": 96.25,
+      "source": "Light Rain Distant Thunder July 5th 2016.wav",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Light_Rain_Distant_Thunder_July_5th_2016.wav",
+      "license": "CC0 1.0",
+      "bytes": 1194276
+    }
+  ]
+}

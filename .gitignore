@@ -2,3 +2,10 @@ ref/
 screenshot*.png
 *.bak
 node_modules/
+.vercel/
+.vercel
+.env*
+
+# local tooling and unused audio kept out of the repo
+.claude/
+music/classical/
